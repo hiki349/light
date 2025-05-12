@@ -48,7 +48,6 @@ const material = new THREE.ShaderMaterial({
 const circle = new THREE.Mesh(geometry, material);
 scene.add(circle);
 
-
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
@@ -56,13 +55,20 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(innerWidth, innerHeight);
 
+let prevTime = 0;
+const frameTime = 1000 / 60;
 const render = () => {
   stats.begin();
+  const currentTime = Date.now();
+  const elapsed = currentTime - prevTime;
 
-  time += 0.002;
-  circle.material.uniforms.uTime.value = time;
-  renderer.render(scene, camera);
+  if (elapsed > frameTime) {
+    time += 0.006;
+    circle.material.uniforms.uTime.value = time;
+    renderer.render(scene, camera);
 
+    prevTime = currentTime - (prevTime % frameTime);
+  }
   stats.end();
 };
 
