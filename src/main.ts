@@ -26,7 +26,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 2;
+camera.position.z = getAdaptiveCameraPositionZ(innerWidth);
 scene.add(camera);
 
 // Half-Sphere
@@ -74,9 +74,24 @@ const render = () => {
 
 renderer.setAnimationLoop(render);
 
+function getAdaptiveCameraPositionZ(width: number) {
+  if (width <= 365) {
+    return 6;
+  } else if (width <= 475) {
+    return 5;
+  } else if (width <= 670) {
+    return 4;
+  } else if (width <= 1115) {
+    return 3;
+  } else {
+    return 2;
+  }
+}
+
 // Resize
 addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
+  camera.position.z = getAdaptiveCameraPositionZ(innerWidth);
   camera.updateProjectionMatrix();
 
   renderer.setSize(innerWidth, innerHeight);
