@@ -29,10 +29,10 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.z = 2;
 scene.add(camera);
 
-// Circle
+// Half-Sphere
 const center = new THREE.Vector3();
 
-const geometry = new THREE.SphereGeometry(1, 60);
+const geometry = new THREE.SphereGeometry(1, 180, 180, 0, Math.PI, 0, Math.PI);
 geometry.computeBoundingBox();
 geometry.boundingBox?.getCenter(center);
 const material = new THREE.ShaderMaterial({
